@@ -1,0 +1,133 @@
+# Arquivos compilados / otimizados / DLL
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Extensões C
+*.so
+
+# Distribuição / empacotamento
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Geralmente esses arquivos são escritos por um script Python a partir de um modelo
+#  antes do PyInstaller construir o executável, para injetar informações de data/outros nele.
+*.manifest
+*.spec
+
+# Logs do instalador
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Relatórios de testes unitários / cobertura
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Traduções
+*.mo
+*.pot
+
+# Coisas do Django:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Coisas do Flask:
+instance/
+.webassets-cache
+
+# Coisas do Scrapy:
+.scrapy
+
+# Documentação do Sphinx
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   De acordo com pypa/pipenv#598, é recomendado incluir o Pipfile.lock no controle de versão.
+#   No entanto, em caso de colaboração, se houver dependências específicas de plataforma ou dependências
+#   que não têm suporte multiplataforma, o pipenv pode instalar dependências que não funcionam ou não
+#   instalar todas as dependências necessárias.
+#Pipfile.lock
+
+# PEP 582; usado por exemplo em github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Coisas do Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Arquivos do SageMath analisados
+*.sage.py
+
+# Ambientes
+.env
+.venv
+.pyenv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Configurações do projeto Spyder
+.spyderproject
+.spyproject
+
+# Configurações do projeto Rope
+.ropeproject
+
+# Documentação do mkdocs
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Verificador de tipos Pyre
+.pyre/
+
+# Analisador de tipos estáticos pytype
+.pytype/
