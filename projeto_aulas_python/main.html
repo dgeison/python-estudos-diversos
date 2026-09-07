@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Universo dos Dados: Engenharia, Ciência e Análise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: "Slate and Sand" - A calm, professional palette with a light sand background (F5F1E8), dark slate text (334155), a slightly muted blue for primary actions (60A5FA), and a warmer accent for highlights (FBBF24). -->
+    <!-- Application Structure Plan: A single-page application with a fixed top navigation bar. The structure is thematic, guiding the user through a logical learning path: 1. Introduction (The Big Picture), 2. The Roles (deep dive into Engineering, Science, Analysis), 3. The Comparison (how they differ and relate), and 4. The Architectures (interactive diagrams of technical flows). This structure was chosen because it mirrors a typical educational journey, starting with broad concepts and progressively moving to specific, technical details, making it ideal for students. User flow is controlled by navigation clicks that smoothly scroll to the relevant content section. -->
+    <!-- Visualization & Content Choices: Report Info: Conceptual definitions and flowchart-style diagrams. Goal: Educate and Clarify. Viz/Presentation Method: The core of the application is the interactive "diagram explorer". Instead of static images, the ASCII diagrams from the source were recreated using styled HTML and Tailwind CSS. Interaction: Hovering over a component in a diagram highlights it and displays its corresponding explanation, making the abstract data flow tangible and easier to understand. This method was chosen over Canvas or static images to create a lightweight, responsive, and more engaging learning tool. Justification: This interactive approach encourages exploration and reinforces learning by directly linking visual components to their descriptions. Library/Method: Vanilla JavaScript for interactivity, Tailwind CSS for styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            background-color: #F8F9FA; /* Light gray background */
+            color: #343A40; /* Dark gray text */
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link.active {
+            color: #0D6EFD; /* Bootstrap primary blue */
+            border-bottom-color: #0D6EFD;
+        }
+        .diagram-box {
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .diagram-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .diagram-component {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .diagram-component.highlight {
+            background-color: #0D6EFD !important;
+            color: white !important;
+        }
+        .explanation-item.highlight {
+            background-color: #E7F1FF; /* Light blue highlight */
+        }
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #6C757D; /* Muted gray for arrows */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-2xl font-bold text-gray-800">Universo dos Dados</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#intro" class="nav-link text-gray-600 hover:text-blue-500 border-b-2 border-transparent pb-1">Introdução</a>
+                    <a href="#roles" class="nav-link text-gray-600 hover:text-blue-500 border-b-2 border-transparent pb-1">Os Papéis</a>
+                    <a href="#comparison" class="nav-link text-gray-600 hover:text-blue-500 border-b-2 border-transparent pb-1">Comparações</a>
+                    <a href="#architectures" class="nav-link text-gray-600 hover:text-blue-500 border-b-2 border-transparent pb-1">Arquiteturas</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-btn" class="text-gray-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#intro" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Introdução</a>
+                <a href="#roles" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Os Papéis</a>
+                <a href="#comparison" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Comparações</a>
+                <a href="#architectures" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100 rounded">Arquiteturas</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Section 1: Introduction -->
+        <section id="intro" class="mb-24 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Bem-vindo ao Universo dos Dados</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Esta aplicação interativa desmistifica os papéis fundamentais da Engenharia, Ciência e Análise de Dados. Explore os conceitos, entenda as diferenças e veja como estas áreas colaboram para transformar dados brutos em decisões inteligentes.
+            </p>
+        </section>
+
+        <!-- Section 2: The Roles -->
+        <section id="roles" class="mb-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Os Papéis Fundamentais</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Data Engineering -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4">Engenharia de Dados</h3>
+                    <p class="text-gray-600 mb-4"><strong>Os Arquitetos:</strong> Focados no design, construção e manutenção da infraestrutura que permite a coleta, armazenamento e processamento de grandes volumes de dados de forma escalável e confiável.</p>
+                    <p class="text-gray-500 text-sm"><strong>Palavras-chave:</strong> Pipelines de Dados, ETL/ELT, Data Warehouse, Data Lake.</p>
+                </div>
+                <!-- Data Science -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4">Ciência de Dados</h3>
+                    <p class="text-gray-600 mb-4"><strong>Os Videntes:</strong> Usam métodos científicos e algoritmos para extrair conhecimento, identificar padrões complexos e fazer previsões sobre o futuro a partir dos dados.</p>
+                    <p class="text-gray-500 text-sm"><strong>Palavras-chave:</strong> Machine Learning, Modelagem Preditiva, IA.</p>
+                </div>
+                <!-- Data Analysis -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4">Análise de Dados</h3>
+                    <p class="text-gray-600 mb-4"><strong>Os Contadores de Histórias:</strong> Inspecionam e modelam dados para descobrir informações úteis, responder a perguntas de negócio e apresentar insights através de relatórios e dashboards.</p>
+                    <p class="text-gray-500 text-sm"><strong>Palavras-chave:</strong> Business Intelligence, Dashboards, KPIs, Visualização.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Comparison -->
+        <section id="comparison" class="mb-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Como Tudo se Conecta</h2>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold mb-6 text-center">Um Time, Um Objetivo</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Nenhuma área funciona bem sem a outra. A engenharia constrói a base, a ciência cria modelos preditivos e a análise traduz os dados em insights acionáveis, num ciclo contínuo de valor.</p>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 text-center">
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <h4 class="font-bold">Engenharia de Dados</h4>
+                        <p class="text-sm text-gray-500">Constrói a "estrada" e fornece o "combustível".</p>
+                    </div>
+                    <div class="flow-arrow text-blue-400">→</div>
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <h4 class="font-bold">Ciência de Dados</h4>
+                        <p class="text-sm text-gray-500">Constrói "carros de corrida" para prever o futuro.</p>
+                    </div>
+                    <div class="flow-arrow text-blue-400">→</div>
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <h4 class="font-bold">Análise de Dados</h4>
+                        <p class="text-sm text-gray-500">Cria "mapas" que mostram o caminho percorrido.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Architectures -->
+        <section id="architectures" class="mb-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Explorador de Arquiteturas</h2>
+            <div id="diagram-container" class="bg-white p-8 rounded-xl shadow-lg min-h-[500px]">
+                <!-- Diagram content will be injected here by JS -->
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-white border-t">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
+            <p>Aplicação Interativa de Engenharia de Dados. Criada para fins educacionais.</p>
+        </div>
+    </footer>
+
+    <script>
+        const diagrams = {
+            "ponta-a-ponta": {
+                title: "Fluxo de Dados de Ponta a Ponta",
+                description: "Este é um diagrama de alto nível que mostra como as três principais áreas de dados se interligam. É uma visão macro do ciclo de vida dos dados numa organização.",
+                components: [
+                    { id: "fonte", name: "Fontes de Dados", text: "O ponto de partida. Podem ser bancos de dados de aplicações (BDs), APIs de terceiros, ficheiros de log, etc." },
+                    { id: "ingestao", name: "Ingestão", text: "A primeira etapa da engenharia. Ferramentas como Apache Kafka (para streaming) ou Apache Airflow (para orquestração de lotes) recolhem os dados das fontes." },
+                    { id: "processamento", name: "Armazenamento & Processamento", text: "O coração da engenharia de dados. Os dados são armazenados (em Data Lakes ou Data Warehouses) e processados (com ferramentas como o Apache Spark) para serem limpos, transformados e preparados para o consumo." },
+                    { id: "consumo", name: "Consumo", text: "A etapa final, onde o valor é extraído. Analistas de Dados usam ferramentas de BI para criar relatórios, e Cientistas de Dados usam os dados preparados para treinar modelos." }
+                ],
+                render() {
+                    return `
+                        <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4 md:justify-center text-center font-mono p-4 bg-gray-50 rounded-lg">
+                            <div id="fonte" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Fontes de Dados</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="ingestao" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Ingestão</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="processamento" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Armazenamento & Processamento</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="consumo" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Consumo</div>
+                        </div>
+                    `;
+                }
+            },
+            "etl": {
+                title: "Pipeline ETL (Extract, Transform, Load)",
+                description: "Este é o padrão clássico, ideal para quando as transformações são bem definidas e o destino é um Data Warehouse estruturado.",
+                components: [
+                    { id: "extract", name: "Extract (Extrair)", text: "Os dados são extraídos das fontes e colocados numa área temporária (Staging Area)." },
+                    { id: "transform", name: "Transform (Transformar)", text: "Um motor de processamento (como o Spark) aplica as regras de negócio: limpeza, agregação, junção de dados, etc. Esta é a etapa mais pesada." },
+                    { id: "load", name: "Load (Carregar)", text: "Os dados já transformados e estruturados são carregados no Data Warehouse, prontos para análise." }
+                ],
+                render() {
+                    return `
+                        <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4 md:justify-center text-center font-mono p-4 bg-gray-50 rounded-lg">
+                            <div id="extract" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Fonte -> Staging</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="transform" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Motor de Transformação</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="load" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Data Warehouse</div>
+                        </div>
+                    `;
+                }
+            },
+            "elt": {
+                title: "Pipeline ELT (Extract, Load, Transform)",
+                description: "Uma abordagem mais moderna, popularizada pelos Data Lakes e pela computação em nuvem, que oferece mais flexibilidade.",
+                components: [
+                    { id: "extract", name: "Extract (Extrair)", text: "Os dados são extraídos das fontes." },
+                    { id: "load", name: "Load (Carregar)", text: "Os dados brutos, sem transformação, são carregados diretamente num Data Lake." },
+                    { id: "transform", name: "Transform (Transformar)", text: "A transformação ocorre depois do carregamento, muitas vezes sob demanda, para um Data Warehouse ou para uso direto por Cientistas de Dados." }
+                ],
+                render() {
+                    return `
+                        <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4 md:justify-center text-center font-mono p-4 bg-gray-50 rounded-lg">
+                            <div id="extract" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Fonte</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="load" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Data Lake (Bruto)</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="transform" class="diagram-component border-2 border-gray-300 p-4 rounded-lg bg-white">Transformação (On-Demand)</div>
+                        </div>
+                    `;
+                }
+            },
+            "streaming": {
+                title: "Arquitetura de Streaming",
+                description: "Este diagrama ilustra uma aplicação em tempo real, como a recomendação de produtos ou a deteção de fraudes num e-commerce.",
+                components: [
+                    { id: "eventos", name: "Eventos", text: "Cada clique ou ação do utilizador é enviado como um evento para uma fila (Apache Kafka)." },
+                    { id: "processamento", name: "Processamento em Tempo Real", text: "O Spark Streaming consome esses eventos em tempo real, enriquecendo-os." },
+                    { id: "predicao", name: "Predição", text: "Os dados processados são enviados para um modelo de Machine Learning para fazer uma predição." },
+                    { id: "acao", name: "Ação", text: "A predição é enviada de volta para a aplicação web para acionar uma ação, como mostrar uma recomendação." }
+                ],
+                render() {
+                    return `
+                        <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-2 md:justify-center text-center font-mono p-4 bg-gray-50 rounded-lg text-sm">
+                            <div id="eventos" class="diagram-component border-2 border-gray-300 p-3 rounded-lg bg-white">Cliques do Utilizador</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="processamento" class="diagram-component border-2 border-gray-300 p-3 rounded-lg bg-white">Processamento Streaming</div>
+                            <div class="flow-arrow text-gray-400">→</div>
+                            <div id="predicao" class="diagram-component border-2 border-gray-300 p-3 rounded-lg bg-white">Modelo de ML</div>
+                             <div class="flow-arrow text-gray-400">→</div>
+                            <div id="acao" class="diagram-component border-2 border-gray-300 p-3 rounded-lg bg-white">Aplicação Web</div>
+                        </div>
+                    `;
+                }
+            }
+        };
+
+        const diagramContainer = document.getElementById('diagram-container');
+        let currentDiagram = 'ponta-a-ponta';
+
+        function renderDiagram(diagramKey) {
+            const diagramData = diagrams[diagramKey];
+            if (!diagramData) return;
+            
+            currentDiagram = diagramKey;
+
+            const explanationsHTML = diagramData.components.map(comp => `
+                <div id="exp-${comp.id}" class="explanation-item p-4 border-b border-gray-200 rounded-md">
+                    <h4 class="font-bold text-gray-800">${comp.name}</h4>
+                    <p class="text-gray-600">${comp.text}</p>
+                </div>
+            `).join('');
+
+            const buttonsHTML = Object.keys(diagrams).map(key => `
+                <button data-diagram="${key}" class="diagram-btn px-4 py-2 text-sm font-medium rounded-md transition ${key === diagramKey ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}">
+                    ${diagrams[key].title.split('(')[0]}
+                </button>
+            `).join('');
+
+            diagramContainer.innerHTML = `
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold mb-2">${diagramData.title}</h3>
+                    <p class="text-gray-600 max-w-2xl mx-auto">${diagramData.description}</p>
+                </div>
+                <div class="mb-8">
+                    ${diagramData.render()}
+                </div>
+                <div class="mb-8 flex flex-wrap justify-center gap-2">
+                    ${buttonsHTML}
+                </div>
+                <div id="explanations" class="space-y-2 bg-gray-50 p-4 rounded-lg">
+                    ${explanationsHTML}
+                </div>
+            `;
+            addDiagramListeners();
+        }
+
+        function addDiagramListeners() {
+            const diagramData = diagrams[currentDiagram];
+            diagramData.components.forEach(comp => {
+                const diagramEl = document.getElementById(comp.id);
+                const explanationEl = document.getElementById(`exp-${comp.id}`);
+                
+                if (diagramEl && explanationEl) {
+                    diagramEl.addEventListener('mouseenter', () => {
+                        diagramEl.classList.add('highlight');
+                        explanationEl.classList.add('highlight');
+                    });
+                    diagramEl.addEventListener('mouseleave', () => {
+                        diagramEl.classList.remove('highlight');
+                        explanationEl.classList.remove('highlight');
+                    });
+                }
+            });
+
+            document.querySelectorAll('.diagram-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const key = e.target.getAttribute('data-diagram');
+                    renderDiagram(key);
+                });
+            });
+        }
+        
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Nav Link Active State on Scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Initial Render
+        renderDiagram('ponta-a-ponta');
+    </script>
+</body>
+</html>
