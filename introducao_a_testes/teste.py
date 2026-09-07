@@ -1,0 +1,1 @@
+from conversao_celsius_para_fahrenheit import celsius_para_fahrenheit
